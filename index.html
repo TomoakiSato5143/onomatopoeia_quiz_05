@@ -11,10 +11,9 @@
 
     <style>
         /* =========================================
-           STUDIO風デザイン（ヘッダー＆フォント追加版）
+           STUDIO風デザイン（1080pxワイド版）
         ========================================= */
 
-        /* 外側の設定 */
         body {
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
             text-align: center;
@@ -27,51 +26,76 @@
             height: 100%;
         }
 
-        /* クイズエリア */
+        /* クイズエリア全体 */
         .quiz-container {
             background-color: #f7f8f9;
-            max-width: 800px;
+            /* 1. 幅を1080pxに変更 */
+            max-width: 1080px;
             width: 100%;
+            /* 4. 高さを100vh（画面いっぱい）に固定 */
             min-height: 100vh;
+            
             margin: 0 auto;
             padding: 0;
-            border-radius: 0;
-            box-shadow: none;
-            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        /* 閉じるボタン（右上に配置） */
+        /* 2. ヘッダーエリア（高さ130px） */
+        .quiz-header {
+            height: 130px;
+            width: 100%;
+            position: relative; /* 閉じるボタンの基準位置 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 上下中央揃え */
+            align-items: center;     /* 左右中央揃え */
+        }
+
+        /* ヘッダータイトル */
+        h1.main-title {
+            font-family: "M PLUS Rounded 1c", sans-serif;
+            font-size: 40px;
+            color: #444444;
+            margin: 0;
+            font-weight: 700;
+            line-height: 1; /* 行間を詰めて配置しやすくする */
+        }
+
+        /* ヘッダー下の境界線 */
+        .header-line {
+            width: 60%;
+            height: 2px;
+            background-color: #e0e0e0;
+            margin-top: 20px; /* タイトルとの間隔 */
+        }
+
+        /* 閉じるボタン（ヘッダー内に配置） */
         #close-btn {
             position: absolute;
-            top: 25px;
-            right: 25px;
+            top: 40px; /* ヘッダー内での位置調整 */
+            right: 40px;
             background: none;
             border: none;
-            
-            /* 3. クイズをおわるの下だけに枠線を引く */
             border-bottom: 2px solid #5f6aec; 
-            border-radius: 0; /* 角丸をなくして直線のラインにする */
-            
+            border-radius: 0;
             font-size: 0.9rem;
-            color: #555; /* 文字色は読みやすいグレーに */
+            color: #555;
             cursor: pointer;
-            padding: 0 0 2px 0; /* 文字と線の隙間を調整 */
+            padding: 0 0 2px 0;
             display: flex;
             align-items: center;
             gap: 4px;
-            z-index: 20;
             transition: opacity 0.2s;
         }
         #close-btn:hover {
             opacity: 0.6;
         }
 
-        /* コンテンツ部分 */
+        /* コンテンツ部分（ヘッダーとフッターの間） */
         .quiz-content {
-            padding: 40px 20px 20px;
+            padding: 0 20px;
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -79,34 +103,17 @@
             align-items: center;
         }
 
-        /* 1. ヘッダータイトル（オノマトペクイズ） */
-        h1.main-title {
-            font-family: "M PLUS Rounded 1c", sans-serif; /* 指定の丸ゴシック体 */
-            font-size: 40px;
-            color: #444444;
-            margin: 0;
-            font-weight: 700;
-        }
-
-        /* 2. ヘッダー下の境界線 */
-        .header-line {
-            width: 60%;
-            height: 2px;
-            background-color: #e0e0e0;
-            margin: 20px auto 40px auto; /* 上20px、下40pxのマージン */
-        }
-
-        /* 以前のH1（質問文）は少し小さくしてここに配置 */
+        /* 質問文 */
         .question-text {
             font-size: 1.2rem;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #333;
             font-weight: bold;
         }
         
         /* 動画エリア */
         #video-container {
-            max-width: 480px; 
+            max-width: 540px; /* 幅が広がったので動画も少し大きく見やすく */
             margin: 0 auto 30px;
             aspect-ratio: 16 / 9;
             background-color: #000;
@@ -125,8 +132,8 @@
         #choices-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            max-width: 500px;
+            gap: 20px;
+            max-width: 600px; /* コンテンツ幅に合わせて少し広く */
             width: 100%;
             margin: 0 auto;
         }
@@ -136,8 +143,8 @@
             background-color: #fff;
             border: none;
             border-radius: 50px;
-            padding: 15px 10px;
-            font-size: 1.1rem;
+            padding: 16px 10px;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #555;
             cursor: pointer;
@@ -168,28 +175,27 @@
             min-height: 30px;
         }
         
-        /* 色の指定 */
-        .correct { color: #5f6cec; } /* 青色 */
-        .incorrect { color: #e60033; } /* 赤色 */
+        .correct { color: #5f6cec; }
+        .incorrect { color: #e60033; }
 
-        /* 「次の問題へ」ボタン */
+        /* 3. 「次の問題へ」ボタン（色を薄く調整） */
         #next-btn {
             display: none;
             margin-top: 25px;
             padding: 14px 40px;
-            background-color: #333;
+            background-color: #666; /* #333から#666（グレー）に変更 */
             color: #fff;
             border: none;
             border-radius: 50px;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             transition: all 0.3s ease;
         }
         #next-btn:hover {
-            background-color: #555;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+            background-color: #888; /* ホバー時も少し明るく */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
             transform: translateY(-2px);
         }
 
@@ -197,7 +203,7 @@
         footer {
             width: 100%;
             text-align: center;
-            margin-top: 40px;
+            margin-top: 20px;
         }
 
         .footer-line {
@@ -224,9 +230,9 @@
 
         /* スマホ表示の調整 */
         @media (max-width: 600px) {
-            /* スマホではタイトルを少し小さく */
+            .quiz-header { height: auto; padding: 20px 0; }
             h1.main-title { font-size: 28px; }
-            .question-text { font-size: 1rem; }
+            #close-btn { position: relative; top: 0; right: 0; margin-bottom: 10px; border-bottom: none; }
             
             #choices-container {
                 grid-template-columns: 1fr;
@@ -241,15 +247,16 @@
 
     <div class="quiz-container">
         
-        <button id="close-btn" onclick="window.close()">
-            <span style="font-size: 1.2em;">×</span> クイズを おわる
-        </button>
+        <header class="quiz-header">
+            <h1 class="main-title">オノマトペクイズ</h1>
+            <div class="header-line"></div>
+            
+            <button id="close-btn" onclick="window.close()">
+                <span style="font-size: 1.2em;">×</span> クイズを おわる
+            </button>
+        </header>
 
         <div class="quiz-content">
-            
-            <h1 class="main-title">オノマトペクイズ</h1>
-            
-            <div class="header-line"></div>
 
             <div class="question-text">この どうがの オノマトペは どれ？</div>
 
